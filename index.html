@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HORSEWEB - Премиальная татарская конина</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', cursive;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2c2c2c 0%, #4a4a4a 100%);
+            color: #ffd700;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            padding: 40px 0;
+            text-align: center;
+            border-bottom: 5px solid #333;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "🐎";
+            font-size: 100px;
+            position: absolute;
+            opacity: 0.1;
+            top: 10px;
+            left: 10%;
+            animation: horseRun 20s linear infinite;
+        }
+
+        @keyframes horseRun {
+            0% { transform: translateX(-100px) rotate(0deg); }
+            100% { transform: translateX(1200px) rotate(360deg); }
+        }
+
+        .logo {
+            font-size: 48px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #333, #666, #333);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 3px 3px 0 #ffd700;
+            margin-bottom: 20px;
+            animation: logoGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes logoGlow {
+            from { text-shadow: 3px 3px 0 #ffd700; }
+            to { text-shadow: 3px 3px 20px #ffd700, 0 0 30px #fff; }
+        }
+
+        .tagline {
+            font-size: 18px;
+            color: #333;
+            font-style: italic;
+            margin-bottom: 30px;
+            background: #ffd700;
+            padding: 10px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .contact-info {
+            background: #333;
+            padding: 15px;
+            border-radius: 15px;
+            display: inline-block;
+            border: 3px dashed #ffd700;
+        }
+
+        .phone, .telegram {
+            font-size: 20px;
+            margin: 10px 0;
+            color: #ffd700;
+            font-weight: bold;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+        .products {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 50px;
+            color: #ffd700;
+            text-shadow: 2px 2px 0 #333;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: "🔥";
+            position: absolute;
+            right: 10%;
+            animation: fire 1s ease-in-out infinite;
+        }
+
+        @keyframes fire {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            transition: all 0.4s ease;
+            border: 3px solid #333;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card::before {
+            content: "⚡";
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 30px;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover::before {
+            opacity: 1;
+            transform: rotate(360deg);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px) rotate(2deg);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.5);
+            background: linear-gradient(135deg, #ffed4e 0%, #ffd700 100%);
+        }
+
+        .product-card.active {
+            border: 3px solid #333;
+            background: linear-gradient(135deg, #333 0%, #666 100%);
+            color: #ffd700;
+        }
+
+        .product-name {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-shadow: 1px 1px 0 #ffd700;
+        }
+
+        .product-card.active .product-name {
+            color: #ffd700;
+            text-shadow: 1px 1px 0 #333;
+        }
+
+        .product-description {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .product-card.active .product-description {
+            color: #ffd700;
+        }
+
+        .product-price {
+            font-size: 20px;
+            color: #333;
+            font-weight: bold;
+            background: #ffd700;
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid #333;
+        }
+
+        .product-card.active .product-price {
+            background: #333;
+            color: #ffd700;
+            border: 2px solid #ffd700;
+        }
+
+        .product-detail {
+            display: none;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            border: 3px solid #333;
+            animation: detailAppear 0.6s ease;
+            position: relative;
+        }
+
+        @keyframes detailAppear {
+            0% { opacity: 0; transform: scale(0.8) rotate(-5deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        .product-detail::after {
+            content: "🐴";
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 40px;
+            opacity: 0.3;
+        }
+
+        .product-detail.active {
+            display: block;
+        }
+
+        .detail-name {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 2px 2px 0 #ffd700;
+        }
+
+        .detail-description {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.8;
+        }
+
+        .detail-features {
+            background: #333;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border: 2px dashed #ffd700;
+        }
+
+        .detail-features h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .detail-features ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .detail-features li {
+            padding: 8px 0;
+            border-bottom: 1px solid #ffd700;
+            color: #ffd700;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .detail-features li::before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+        }
+
+        .detail-features li:last-child {
+            border-bottom: none;
+        }
+
+        .quality {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #333 0%, #4a4a4a 100%);
+            border-top: 5px solid #ffd700;
+            border-bottom: 5px solid #ffd700;
+        }
+
+        .quality-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .quality-text {
+            font-size: 18px;
+            color: #ffd700;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 0 #333;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #333;
+            text-align: center;
+            padding: 40px 0;
+            border-top: 5px solid #333;
+            position: relative;
+        }
+
+        footer::before {
+            content: "💀 ЛОШАДИНА КРУТО 💀";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: #ffd700;
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .footer-contact {
+            font-size: 20px;
+            margin: 15px 0;
+        }
+
+        .gold {
+            color: #333;
+            font-weight: bold;
+            text-shadow: 1px 1px 0 #ffd700;
+        }
+
+        .byn-price {
+            background: #333;
+            color: #ffd700;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            border: 1px solid #ffd700;
+        }
+
+        .funny-message {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #333;
+            color: #ffd700;
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid #ffd700;
+            font-size: 12px;
+            display: none;
+            z-index: 1000;
+        }
+
+        .css-joke {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #ffd700;
+            color: #333;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 10px;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 36px;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            header::before {
+                animation: horseRun 10s linear infinite;
+            }
+        }
+
+        /* Анимация для особых кликов */
+        @keyframes crazyRotate {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(90deg) scale(1.1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            75% { transform: rotate(270deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        .crazy-mode {
+            animation: crazyRotate 1s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="css-joke">/* CSS - Конский Стильный Сайт */</div>
+    <div class="funny-message" id="funnyMessage">Ты кликаешь как настоящий жокей! 🐎</div>
+
+    <header>
+        <div class="container">
+            <div class="logo">HORSEWEB</div>
+            <div class="tagline">Элитная татарская конина </div>
+            <div class="contact-info">
+                <div class="phone">+375 (44) 528-36-49</div>
+                <div class="telegram">Telegram: @Vesna452</div>
+            </div>
+        </div>
+    </header>
+
+    <section class="products">
+        <div class="container">
+            <h2 class="section-title">Наши премиальные сорта</h2>
+            <div class="product-grid">
+                <div class="product-card" onclick="showDetail('ulyatina', this)">
+                    <div class="product-name">Ульятина</div>
+                    <div class="product-description">Нежнейшее мясо молодых лошадей</div>
+                    <div class="product-price"><span class="byn-price">25 BYN/кг</span></div>
+                </div>
+
+                <div class="product-card" onclick="showDetail('sementsovshchina', this)">
+                    <div class="product-name">Семенцовщина</div>
+                    <div class="product-description">Отборная конина с мраморным рисунком</div>
+                    <div class="product-price"><span class="byn-price">35 BYN/кг</span></div>
+                </div>
+
+                <div class="product-card" onclick="showDetail('burlyatina', this)">
+                    <div class="product-name">Бурлятина</div>
+                    <div class="product-description">Энергичный вкус для ценителей</div>
+                    <div class="product-price"><span class="byn-price">30 BYN/кг</span></div>
+                </div>
+
+                <div class="product-card" onclick="showDetail('stasytina', this)">
+                    <div class="product-name">Стасятина</div>
+                    <div class="product-description">Эксклюзивный сорт с особой выдержкой</div>
+                    <div class="product-price"><span class="byn-price">40 BYN/кг</span></div>
+                </div>
+
+                <div class="product-card" onclick="showDetail('trotsyatina', this)">
+                    <div class="product-name">Троцятина</div>
+                    <div class="product-description">Ароматная выдержанная конина</div>
+                    <div class="product-price"><span class="byn-price">28 BYN/кг</span></div>
+                </div>
+
+                <div class="product-card" onclick="showDetail('mashatina', this)">
+                    <div class="product-name">Машатина</div>
+                    <div class="product-description">Нежная текстура, изысканный вкус</div>
+                    <div class="product-price"><span class="byn-price">32 BYN/кг</span></div>
+                </div>
+
+                <div class="product-card" onclick="showDetail('kolbasa', this)">
+                    <div class="product-name">Поповна Дроздовская колбаса</div>
+                    <div class="product-description">Фирменная конная колбаса</div>
+                    <div class="product-price"><span class="byn-price">22 BYN/кг</span></div>
+                </div>
+
+                <div class="product-card" onclick="showDetail('kumys', this)">
+                    <div class="product-name">Кумыс Татарский Кудряшов Монтано</div>
+                    <div class="product-description">Традиционный освежающий напиток</div>
+                    <div class="product-price"><span class="byn-price">15 BYN/л</span></div>
+                </div>
+            </div>
+
+            <!-- Детальные описания -->
+            <div id="ulyatina" class="product-detail">
+                <div class="detail-name">Ульятина</div>
+                <div class="detail-description">
+                    Премиальный сорт конины, названный в честь основателя нашего производства. 
+                    Мясо от молодых лошадей возрастом до 3 лет, выращенных на альпийских лугах.
+                    <strong>Идеально для тех, кто хочет почувствовать себя настоящим кочевником!</strong>
+                </div>
+                <div class="detail-features">
+                    <h3>Особенности:</h3>
+                    <ul>
+                        <li>Возраст: до 3 лет (молодые и перспективные)</li>
+                        <li>Специальная диета: овес и травы (как у спортсменов)</li>
+                        <li>Созревание: 21 день в вакууме (почти как вино)</li>
+                        <li>Текстура: нежная, сочная (тает во рту)</li>
+                        <li>Идеально для: стейков, тартара (и впечатления соседей)</li>
+                    </ul>
+                </div>
+                <div class="product-price"><span class="byn-price">Цена: 25 BYN/кг</span></div>
+            </div>
+
+            <div id="sementsovshchina" class="product-detail">
+                <div class="detail-name">Семенцовщина</div>
+                <div class="detail-description">
+                    Элитный сорт с выраженным мраморным рисунком. Назван в честь мастера Семенца, 
+                    который говорил: "Хорошая конина должна быть как хороший код - без багов!"
+                </div>
+                <div class="detail-features">
+                    <h3>Особенности:</h3>
+                    <ul>
+                        <li>Мраморность: высший сорт (как швейцарский сыр)</li>
+                        <li>Выдержка: 28 дней (дольше, чем некоторые отношения)</li>
+                        <li>Порода: ахалтекинская (аха-теки-теки-теки)</li>
+                        <li>Вкус: насыщенный, бархатный (как голос диктора)</li>
+                        <li>Идеально для: гриля, запекания (и хвастовства)</li>
+                    </ul>
+                </div>
+                <div class="product-price"><span class="byn-price">Цена: 35 BYN/кг</span></div>
+            </div>
+
+            <div id="burlyatina" class="product-detail">
+                <div class="detail-name">Бурлятина</div>
+                <div class="detail-description">
+                    Энергичный и яркий вкус, который не оставит равнодушным. Сорт создан для 
+                    истинных ценителей крепких ароматов и насыщенных вкусов. Название говорит само за себя - вкус просто бурлит!
+                </div>
+                <div class="detail-features">
+                    <h3>Особенности:</h3>
+                    <ul>
+                        <li>Выдержка: 35 дней (почти как виски)</li>
+                        <li>Маринад: традиционные травы (секрет бабушки)</li>
+                        <li>Аромат: дымный, пряный (как у костра)</li>
+                        <li>Текстура: плотная, волокнистая (настоящий мужской выбор)</li>
+                        <li>Идеально для: жаркого, плова (и посиделок с друзьями)</li>
+                    </ul>
+                </div>
+                <div class="product-price"><span class="byn-price">Цена: 30 BYN/кг</span></div>
+            </div>
+
+            <div id="stasytina" class="product-detail">
+                <div class="detail-name">Стасятина</div>
+                <div class="detail-description">
+                    Самый эксклюзивный сорт в нашей коллекции. Готовится по секретному 
+                    рецепту семьи Стасюкевич, передающемуся из поколения в поколение.
+                    Только для настоящих гурманов, которые понимают толк в конине!
+                </div>
+                <div class="detail-features">
+                    <h3>Особенности:</h3>
+                    <ul>
+                        <li>Выдержка: 45 дней (рекордная!)</li>
+                        <li>Специи: 12 уникальных компонентов (секретная формула)</li>
+                        <li>Приготовление: медленное томление (как в старину)</li>
+                        <li>Вкус: сложный, многослойный (как хорошее кино)</li>
+                        <li>Идеально для: особых случаев (и чтобы похвастаться)</li>
+                    </ul>
+                </div>
+                <div class="product-price"><span class="byn-price">Цена: 40 BYN/кг</span></div>
+            </div>
+
+            <div id="trotsyatina" class="product-detail">
+                <div class="detail-name">Троцятина</div>
+                <div class="detail-description">
+                    Новый сорт, сочетающий в себе традиции и современные технологии. 
+                    Идеальный баланс нежности и насыщенного вкуса. Назван в честь нашего шеф-повара Трофима,
+                    который провел 100 экспериментов чтобы добиться идеала!
+                </div>
+                <div class="detail-features">
+                    <h3>Особенности:</h3>
+                    <ul>
+                        <li>Возраст: 2-4 года (золотая середина)</li>
+                        <li>Выдержка: 25 дней (идеальный баланс)</li>
+                        <li>Порода: башкирская (выносливая и вкусная)</li>
+                        <li>Вкус: сбалансированный, мягкий (подходит всем)</li>
+                        <li>Идеально для: любых блюд (от супа до шашлыка)</li>
+                    </ul>
+                </div>
+                <div class="product-price"><span class="byn-price">Цена: 28 BYN/кг</span></div>
+            </div>
+
+            <div id="mashatina" class="product-detail">
+                <div class="detail-name">Машатина</div>
+                <div class="detail-description">
+                    Невероятно нежный сорт, созданный специально для гурманов, 
+                    ценящих тонкие вкусовые нюансы и бархатную текстуру. Назван в честь Марии - 
+                    нашего дегустатора с 20-летним стажем!
+                </div>
+                <div class="detail-features">
+                    <h3>Особенности:</h3>
+                    <ul>
+                        <li>Возраст: 1.5-2 года (самые нежные)</li>
+                        <li>Выдержка: 18 дней (чтобы сохранить нежность)</li>
+                        <li>Диета: молочная (особый рацион)</li>
+                        <li>Текстура: маслянистая (тает во рту)</li>
+                        <li>Идеально для: карпаччо, салатов (и романтических ужинов)</li>
+                    </ul>
+                </div>
+                <div class="product-price"><span class="byn-price">Цена: 32 BYN/кг</span></div>
+            </div>
+
+            <div id="kolbasa" class="product-detail">
+                <div class="detail-name">Поповна Дроздовская колбаса</div>
+                <div class="detail-description">
+                    Легендарная конная колбаса по старинному рецепту семьи Дроздовых. 
+                    Уникальная рецептура и технология копчения. Говорят, этот рецепт знали еще при царе!
+                    Настоящая легенда среди колбасных изделий.
+                </div>
+                <div class="detail-features">
+                    <h3>Особенности:</h3>
+                    <ul>
+                        <li>Копчение: на буковых опилках (по-старинке)</li>
+                        <li>Специи: 7 секретных компонентов (фамильный секрет)</li>
+                        <li>Созревание: 14 дней (идеальный срок)</li>
+                        <li>Вкус: пикантный, с дымком (незабываемый)</li>
+                        <li>Идеально для: закусок, бутербродов (и просмотра футбола)</li>
+                    </ul>
+                </div>
+                <div class="product-price"><span class="byn-price">Цена: 22 BYN/кг</span></div>
+            </div>
+
+            <div id="kumys" class="product-detail">
+                <div class="detail-name">Кумыс Татарский Кудряшов Монтано</div>
+                <div class="detail-description">
+                    Традиционный татарский напиток из кобыльего молока. Освежающий, 
+                    полезный и невероятно вкусный. Производится по уникальной технологии,
+                    которую разработал сам мастер Кудряшов. Настоящий эликсир здоровья!
+                </div>
+                <div class="detail-features">
+                    <h3>Особенности:</h3>
+                    <ul>
+                        <li>Крепость: 1.5-3% (можно и детям)</li>
+                        <li>Брожение: 3-5 дней (по старинному методу)</li>
+                        <li>Польза: пробиотики, витамины (здоровье в стакане)</li>
+                        <li>Вкус: освежающий, кисломолочный (утоляет жажду)</li>
+                        <li>Идеально для: здоровья, утоления жажды (и хорошего настроения)</li>
+                    </ul>
+                </div>
+                <div class="product-price"><span class="byn-price">Цена: 15 BYN/л</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="quality">
+        <div class="container">
+            <div class="quality-content">
+                <h2 class="section-title">О качестве</h2>
+                <p class="quality-text">
+                    Мы предлагаем исключительно премиальную конину, выращенную на экологически чистых пастбищах 
+                    Татарстана. Наши лошади бегают так быстро, что мясо само собой становится нежным!
+                </p>
+                <p class="quality-text">
+                    Наше мясо - это симбиоз традиций и современных технологий. 
+                    <strong>Гарантируем: после нашей конины обычная говядина покажется резиной!</strong>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="logo" style="font-size: 36px; margin-bottom: 20px;">HORSEWEB</div>
+            <div class="footer-contact">
+                <div>Заказ по телефону: <span class="gold">+375 (44) 528-36-49</span></div>
+                <div>Telegram: <span class="gold">@Vesna452</span></div>
+            </div>
+            <p style="margin-top: 20px; color: #333;">© 2024 HORSEWEB. Премиальная татарская конина | Сделано с ❤️ и 🐎</p>
+        </div>
+    </footer>
+
+    <script>
+        // Сумасшедший JS с приколами
+        let clickCount = 0;
+        const funnyMessages = [
+            "Ты кликаешь как настоящий жокей! 🐎",
+            "Осторожно! Конина заряжает! ⚡",
+            "Еще клик - и ты станешь татарином! 🏇",
+            "Наш CSS написан копытами! 👣",
+            "JS который не сломался с первого раза! 🎉",
+            "Этот сайт работает быстрее скаковой лошади! 💨",
+            "Ты нашел пасхалку! 🥚",
+            "Наши цены не кусаются... в отличие от лошадей! 😄"
+        ];
+
+        function showDetail(productId, element) {
+            // Сумасшедшая анимация
+            element.classList.add('crazy-mode');
+            setTimeout(() => {
+                element.classList.remove('crazy-mode');
+            }, 1000);
+
+            // Скрываем все детальные описания
+            const allDetails = document.querySelectorAll('.product-detail');
+            allDetails.forEach(detail => {
+                detail.classList.remove('active');
+            });
+
+            // Убираем активный класс со всех карточек
+            const allCards = document.querySelectorAll('.product-card');
+            allCards.forEach(card => {
+                card.classList.remove('active');
+            });
+
+            // Показываем выбранное детальное описание
+            const selectedDetail = document.getElementById(productId);
+            if (selectedDetail) {
+                selectedDetail.classList.add('active');
+                
+                // Добавляем активный класс к выбранной карточке
+                element.classList.add('active');
+                
+                // Прокручиваем к детальному описанию
+                selectedDetail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            // Приколы с сообщениями
+            clickCount++;
+            if (clickCount % 3 === 0) {
+                const message = document.getElementById('funnyMessage');
+                message.textContent = funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
+                message.style.display = 'block';
+                setTimeout(() => {
+                    message.style.display = 'none';
+                }, 3000);
+            }
+
+            // Случайные звуковые эффекты (в виде эмодзи)
+            if (clickCount % 5 === 0) {
+                const sounds = ["🔊", "🎵", "📢", "🎺"];
+                const soundEmoji = sounds[Math.floor(Math.random() * sounds.length)];
+                console.log(`${soundEmoji} Воображаемый звук клика! ${soundEmoji}`);
+            }
+        }
+
+        // Случайные анимации при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            showDetail('ulyatina', document.querySelector('.product-card'));
+            
+            // Прикол при загрузке
+            setTimeout(() => {
+                console.log("🐴 Добро пожаловать в HORSEWEB! Где конина - это стиль жизни! 🐴");
+            }, 1000);
+
+            // Случайное мерцание элементов
+            setInterval(() => {
+                const randomElement = document.querySelectorAll('.product-card')[Math.floor(Math.random() * 8)];
+                if (randomElement) {
+                    randomElement.style.transform = 'scale(1.05)';
+                    setTimeout(() => {
+                        randomElement.style.transform = '';
+                    }, 500);
+                }
+            }, 3000);
+        });
+
+        // Секретная комбинация клавиш
+        let konamiCode = [];
+        const secretCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+        
+        document.addEventListener('keydown', (e) => {
+            konamiCode.push(e.code);
+            if (konamiCode.length > secretCode.length) {
+                konamiCode.shift();
+            }
+            if (konamiCode.join() === secretCode.join()) {
+                alert('🎮 Ты нашел секрет HORSEWEB! Ты настоящий чемпион! 🏆');
+                document.body.style.animation = 'crazyRotate 2s infinite';
+            }
+        });
+    </script>
+</body>
+</html>
